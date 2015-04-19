@@ -1,0 +1,27 @@
+{{ template "partials/header.html" . }}
+<header class="feature">
+    <div class="container container--wide">
+      <h1><span>{{ .Site.Title }}</span></h1>
+      <h3>{{ .Site.Params.tagline }}</h3>
+      <a
+        class="btn btn-primary btn-lg"
+        href="{{ .Site.Params.repository }}"
+        target="_blank"
+      >
+        <i class="fa fa-github"></i> Source code
+      </a>
+      <a
+        class="btn btn-success btn-lg"
+        href="{{ .Site.Params.releases }}"
+        target="_blank"
+      >
+          <i class="fa fa-download"></i> Download
+      </a>
+  </div>
+</header>
+<div class="container">
+  {{ range where .Data.Pages "Section" ""}}
+    {{ .Content }}
+  {{ end }}
+</div>
+{{ template "partials/footer.html" . }}

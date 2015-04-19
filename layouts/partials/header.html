@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+    <title>{{ .Title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ .Description }}">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif] d-->
+
+    <script type="text/javascript"
+      src="https://code.jquery.com/jquery-2.1.1.min.js"
+    ></script>
+
+    <!-- Syntax highlighting -->
+    <link rel="stylesheet" href="https://yandex.st/highlightjs/8.0/styles/github.min.css">
+    <script type="text/javascript"
+      src="https://yandex.st/highlightjs/8.0/highlight.min.js"
+    ></script>
+
+    <!-- Headroom -->
+    <script type="text/javascript"
+      src="//cdnjs.cloudflare.com/ajax/libs/headroom/0.6.0/headroom.min.js"
+    ></script>
+    <script type="text/javascript"
+      src="//cdnjs.cloudflare.com/ajax/libs/headroom/0.6.0/jQuery.headroom.min.js"
+    ></script>
+
+    <!-- Bootstrap -->
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script type="text/javascript"
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"
+    ></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+      var header = document.querySelector(".headroom");
+      new Headroom(header, {
+        tolerance: {
+          down : 10,
+          up : 50
+        },
+        offset : 50}).init();
+      hljs.initHighlightingOnLoad();
+    });
+    </script>
+
+
+    <style type="text/css">
+      body {
+        font-size: 16px;
+      }
+      #navbar-main {
+        margin-top: 5px;
+      }
+      .feature {
+        padding-top: 5.5em;
+        padding-bottom: 2.5em;
+      }
+      .feature {
+        background-color: #F4F0E6;
+        padding: 4em 0 2em 0;
+        text-align: center;
+      }
+      .feature h1 {
+        background-image: url(/ip/images/dockership.png);
+        background-repeat: no-repeat;
+        background-size: 500px;
+        background-position: center center;
+        display: block;
+        height: 90px;
+        margin-left:-55px;
+
+      }
+      .feature h1 span { display: none; }
+      .headroom {
+        transition: transform 200ms linear;
+      }
+      .headroom--unpinned .navbar-brand {
+        width: 60px;
+        transition: width 1s;
+      }
+
+      .headroom--pinned .navbar-brand {
+        width: 200px;
+        transition: width 1s;
+      }
+
+      .container {
+        max-width: 50em;
+        margin: 0 auto;
+        padding: 0 1.5em;
+      }
+      .main h1 {
+        padding-bottom: 10px;
+        margin-bottom: 40px;
+        border-bottom: 1px solid;
+      }
+
+      .navbar-brand {
+        background-image: url(/ip/images/dockership.png);
+        background-repeat: no-repeat;
+        background-size: 200px;
+        width: 200px;
+        margin:5px;
+      }
+
+      .navbar-brand span { display: none;}
+      .main { margin-top: 50px;}
+      .feature .btn { width: 200px; margin-top: 10px; }
+
+      footer { padding-top: 60px !important; }
+      footer a { color: #808080; font-weight: bolder; }
+
+      /* global */
+      .btn-primary, .btn-primary:hover {
+        border: 1px solid #634224;
+        background-image: linear-gradient(#936B47 , #936B47 6%, #82582D);
+      }
+    </style>
+    </head>
+    <body>
+      <header class="navbar navbar-default navbar-fixed-top headroom">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand"><span>{{ .Site.Title }}</span></a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+              <ul class="nav navbar-nav">
+                {{ range .Site.Recent.GroupBy "Section" }}
+                  {{ if ne .Key "" }}
+                  <li class="dropdown">
+                  <a
+                    class="dropdown-toggle" data-toggle="dropdown" 
+                    href="/{{ .Key }}" id="{{ .Key }}">
+                      {{ title .Key }}
+                      <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="themes">
+                    {{ range .Pages }}
+                    <li><a href="{{ .RelPermalink }}">{{.Title }}{{.Node.Url}}</a></li>
+                    {{ end }}
+                  </ul>
+                  </li>
+                  {{ end }}
+                {{ end }}
+
+                {{ if isset .Site.Params "issues" }}
+                <li>
+                  <a href="{{ .Site.Params.issues }}" target="_blank">Issues</a>
+                </li>
+                {{ end }}
+                {{ if isset .Site.Params "releases" }}
+                <li class="dropdown">
+                  <a href="{{ .Site.Params.releases }}" target="_blank">Download</a>
+                </li>
+                {{ end }}
+              </ul>
+
+              {{ if isset .Site.Params "repository" }}
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ .Site.Params.repository }}" target="_blank">
+                  <i class="fa fa-github"></i> Github</a>
+                </a></li>
+              </ul>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </header>
+

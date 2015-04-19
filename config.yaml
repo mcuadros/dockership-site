@@ -1,0 +1,11 @@
+Title: Dockership
+BaseUrl: /ip
+Params:
+    tagline: a dead simple docker deploy tool
+    copyright: Máximo Cuadros
+    author: https://github.com/mcuadros
+    repository: https://github.com/mcuadros/dockership
+    issues: https://github.com/mcuadros/dockership/issues
+    releases: https://github.com/mcuadros/dockership/releases
+    license: https://github.com/mcuadros/dockership/blob/master/LICENSE
+Publishdir: public/ip
