@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+    <title>Scaffolding Strategies</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    
+    
+
+    <script type="text/javascript"
+      src="https://code.jquery.com/jquery-2.1.1.min.js"
+    ></script>
+
+    
+    <link rel="stylesheet" href="https://yandex.st/highlightjs/8.0/styles/github.min.css">
+    <script type="text/javascript"
+      src="https://yandex.st/highlightjs/8.0/highlight.min.js"
+    ></script>
+
+    
+    <script type="text/javascript"
+      src="//cdnjs.cloudflare.com/ajax/libs/headroom/0.6.0/headroom.min.js"
+    ></script>
+    <script type="text/javascript"
+      src="//cdnjs.cloudflare.com/ajax/libs/headroom/0.6.0/jQuery.headroom.min.js"
+    ></script>
+
+    
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script type="text/javascript"
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"
+    ></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+      var header = document.querySelector(".headroom");
+      new Headroom(header, {
+        tolerance: {
+          down : 10,
+          up : 50
+        },
+        offset : 50}).init();
+      hljs.initHighlightingOnLoad();
+    });
+    </script>
+
+
+    <style type="text/css">
+      body {
+        font-size: 16px;
+      }
+      #navbar-main {
+        margin-top: 5px;
+      }
+      .feature {
+        padding-top: 5.5em;
+        padding-bottom: 2.5em;
+      }
+      .feature {
+        background-color: #F4F0E6;
+        padding: 4em 0 2em 0;
+        text-align: center;
+      }
+      .feature h1 {
+        background-image: url(/ip/images/dockership.png);
+        background-repeat: no-repeat;
+        background-size: 500px;
+        background-position: center center;
+        display: block;
+        height: 90px;
+        margin-left:-55px;
+
+      }
+      .feature h1 span { display: none; }
+      .headroom {
+        transition: transform 200ms linear;
+      }
+      .headroom--unpinned .navbar-brand {
+        width: 60px;
+        transition: width 1s;
+      }
+
+      .headroom--pinned .navbar-brand {
+        width: 200px;
+        transition: width 1s;
+      }
+
+      .container {
+        max-width: 50em;
+        margin: 0 auto;
+        padding: 0 1.5em;
+      }
+      .main h1 {
+        padding-bottom: 10px;
+        margin-bottom: 40px;
+        border-bottom: 1px solid;
+      }
+
+      .navbar-brand {
+        background-image: url(/ip/images/dockership.png);
+        background-repeat: no-repeat;
+        background-size: 200px;
+        width: 200px;
+        margin:5px;
+      }
+
+      .navbar-brand span { display: none;}
+      .main { margin-top: 50px;}
+      .feature .btn { width: 200px; margin-top: 10px; }
+
+      footer { padding-top: 60px !important; }
+      footer a { color: #808080; font-weight: bolder; }
+
+       
+      .btn-primary, .btn-primary:hover {
+        border: 1px solid #634224;
+        background-image: linear-gradient(#936B47 , #936B47 6%, #82582D);
+      }
+    </style>
+    </head>
+    <body>
+      <header class="navbar navbar-default navbar-fixed-top headroom">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand"><span>Dockership</span></a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+              <ul class="nav navbar-nav">
+                
+                  
+                
+                  
+                  <li class="dropdown">
+                  <a
+                    class="dropdown-toggle" data-toggle="dropdown" 
+                    href="/documentation" id="documentation">
+                      Documentation
+                      <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="themes">
+                    
+                    <li><a href="/ip/documentation/extending_dockership/">Extending Dockership</a></li>
+                    
+                    <li><a href="/ip/documentation/scaffolding_strategies/">Scaffolding Strategies</a></li>
+                    
+                    <li><a href="/ip/documentation/creating_your_dockerfiles/">Creating your Dockerfiles</a></li>
+                    
+                    <li><a href="/ip/documentation/configuration/">Configuration</a></li>
+                    
+                  </ul>
+                  </li>
+                  
+                
+
+                
+                <li>
+                  <a href="https://github.com/mcuadros/dockership/issues" target="_blank">Issues</a>
+                </li>
+                
+                
+                <li class="dropdown">
+                  <a href="https://github.com/mcuadros/dockership/releases" target="_blank">Download</a>
+                </li>
+                
+              </ul>
+
+              
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="https://github.com/mcuadros/dockership" target="_blank">
+                  <i class="fa fa-github"></i> Github</a>
+                </a></li>
+              </ul>
+              
+            </div>
+          </div>
+        </div>
+      </header>
+
+
+<div class="container main">
+  
+
+<h1 id="toc_0">Scaffolding Strategies</h1>
+
+<p>This document describes the different possibilities to define the scaffolding of applications to be used with Dockership.</p>
+
+<p>The easiest strategy to working with Dockership is to use self-contained repositiories: every repository to be deployed should contain his Dockerfile. Alternatively, the Dockefiles of the different applications of a company can be centralized in a single repository.</p>
+
+<h2 id="toc_1">Self-contained Repositories</h2>
+
+<p>This is the simplest way to work with Dockership: Just place a <code>Dockerfile</code> at the root of your repository. (This is the default location, you can configure your own).</p>
+
+<p>In this example we deploy an AngularJS tool using <a href="https://github.com/dockerfile/nginx">dockerfile/nginx</a>, the container should retrieve the code through a git clone and execute all the required command to work properly.</p>
+
+<pre><code class="language-Dockerfile">FROM dockerfile/nginx
+
+# pre requisites
+RUN apt-get install -y npm nodejs
+RUN ln -s /usr/bin/nodejs /usr/local/bin/node
+RUN npm install -g bower grunt karma
+
+# source code
+RUN rm -rf /var/www
+RUN git clone git@github.com:example/corporate-site.git /var/www
+
+# post code commands
+WORKDIR /var/www
+RUN npm install
+RUN bower install --allow-root
+
+EXPOSE 80
+
+# boot
+CMD [&quot;/usr/sbin/nginx&quot;]
+</code></pre>
+
+<p>This project at the <code>dockership.ini</code> can be configured as follows:</p>
+
+<pre><code class="language-ini">[Project &quot;corporate-site&quot;]
+Repository = git@github.com:example/corporate-site.git
+Port = 0.0.0.0:80:80/tcp
+Environment = live
+</code></pre>
+
+<h2 id="toc_2">Centralised dockerfiles repository</h2>
+
+<p>Maybe you prefer keep all your company&rsquo;s <code>dockerfiles</code> in the same repository, keeping away from the development team those files.</p>
+
+<p>Based on this hypothetic scaffolding:</p>
+
+<pre><code>devops
+ |_ dokerfiles
+     |_ CorporateSiteDokerFile
+     |_ InternalSiteDockerfile
+</code></pre>
+
+<p>Our <code>dockership.ini</code> will looks like:</p>
+
+<pre><code class="language-ini">[Project &quot;corporate-site&quot;]
+Repository =  git@github.com:example/devops.git
+RelatedRepository = git@github.com:example/corporate-site.git
+Dockerfile = dockerfiles/CorporateSiteDokerFile
+Port = 0.0.0.0:80:80/tcp
+Environment = live
+
+[Project &quot;internal-site&quot;]
+Repository =  git@github.com:example/devops.git
+RelatedRepository = git@github.com:example/internal-site.git
+Dockerfile = dockerfiles/InternalSiteDockerfile
+Port = 0.0.0.0:80:80/tcp
+Environment = live
+</code></pre>
+
+<p>Using the <code>RelatedRepository</code> we can track any change at the deployed project, having the dockerfile in other repository. But we have a caveat, every time a file is changed at the <code>devops</code> repository even unrelated to the project, this project will look outdated.</p>
+
+</div>
+  <footer class="container">
+    <div class=" well well-sm">
+        by <a target="_blank"  href=""></a>
+        @ .
+        <a target="_blank" href="">Under MIT License</a> /
+
+        Logo by
+        <a target="_blank" href="https://dribbble.com/cayeromero">Caye Romero</a>
+    </div>
+  </footer>
+</body>
+</html>
+

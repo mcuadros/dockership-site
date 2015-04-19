@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+    <title>Dockership</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    
+    
+
+    <script type="text/javascript"
+      src="https://code.jquery.com/jquery-2.1.1.min.js"
+    ></script>
+
+    
+    <link rel="stylesheet" href="https://yandex.st/highlightjs/8.0/styles/github.min.css">
+    <script type="text/javascript"
+      src="https://yandex.st/highlightjs/8.0/highlight.min.js"
+    ></script>
+
+    
+    <script type="text/javascript"
+      src="//cdnjs.cloudflare.com/ajax/libs/headroom/0.6.0/headroom.min.js"
+    ></script>
+    <script type="text/javascript"
+      src="//cdnjs.cloudflare.com/ajax/libs/headroom/0.6.0/jQuery.headroom.min.js"
+    ></script>
+
+    
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script type="text/javascript"
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"
+    ></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+      var header = document.querySelector(".headroom");
+      new Headroom(header, {
+        tolerance: {
+          down : 10,
+          up : 50
+        },
+        offset : 50}).init();
+      hljs.initHighlightingOnLoad();
+    });
+    </script>
+
+
+    <style type="text/css">
+      body {
+        font-size: 16px;
+      }
+      #navbar-main {
+        margin-top: 5px;
+      }
+      .feature {
+        padding-top: 5.5em;
+        padding-bottom: 2.5em;
+      }
+      .feature {
+        background-color: #F4F0E6;
+        padding: 4em 0 2em 0;
+        text-align: center;
+      }
+      .feature h1 {
+        background-image: url(/ip/images/dockership.png);
+        background-repeat: no-repeat;
+        background-size: 500px;
+        background-position: center center;
+        display: block;
+        height: 90px;
+        margin-left:-55px;
+
+      }
+      .feature h1 span { display: none; }
+      .headroom {
+        transition: transform 200ms linear;
+      }
+      .headroom--unpinned .navbar-brand {
+        width: 60px;
+        transition: width 1s;
+      }
+
+      .headroom--pinned .navbar-brand {
+        width: 200px;
+        transition: width 1s;
+      }
+
+      .container {
+        max-width: 50em;
+        margin: 0 auto;
+        padding: 0 1.5em;
+      }
+      .main h1 {
+        padding-bottom: 10px;
+        margin-bottom: 40px;
+        border-bottom: 1px solid;
+      }
+
+      .navbar-brand {
+        background-image: url(/ip/images/dockership.png);
+        background-repeat: no-repeat;
+        background-size: 200px;
+        width: 200px;
+        margin:5px;
+      }
+
+      .navbar-brand span { display: none;}
+      .main { margin-top: 50px;}
+      .feature .btn { width: 200px; margin-top: 10px; }
+
+      footer { padding-top: 60px !important; }
+      footer a { color: #808080; font-weight: bolder; }
+
+       
+      .btn-primary, .btn-primary:hover {
+        border: 1px solid #634224;
+        background-image: linear-gradient(#936B47 , #936B47 6%, #82582D);
+      }
+    </style>
+    </head>
+    <body>
+      <header class="navbar navbar-default navbar-fixed-top headroom">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand"><span>Dockership</span></a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+              <ul class="nav navbar-nav">
+                
+                  
+                
+                  
+                  <li class="dropdown">
+                  <a
+                    class="dropdown-toggle" data-toggle="dropdown" 
+                    href="/documentation" id="documentation">
+                      Documentation
+                      <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="themes">
+                    
+                    <li><a href="/ip/documentation/extending_dockership/">Extending Dockership</a></li>
+                    
+                    <li><a href="/ip/documentation/scaffolding_strategies/">Scaffolding Strategies</a></li>
+                    
+                    <li><a href="/ip/documentation/creating_your_dockerfiles/">Creating your Dockerfiles</a></li>
+                    
+                    <li><a href="/ip/documentation/configuration/">Configuration</a></li>
+                    
+                  </ul>
+                  </li>
+                  
+                
+
+                
+                <li>
+                  <a href="https://github.com/mcuadros/dockership/issues" target="_blank">Issues</a>
+                </li>
+                
+                
+                <li class="dropdown">
+                  <a href="https://github.com/mcuadros/dockership/releases" target="_blank">Download</a>
+                </li>
+                
+              </ul>
+
+              
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="https://github.com/mcuadros/dockership" target="_blank">
+                  <i class="fa fa-github"></i> Github</a>
+                </a></li>
+              </ul>
+              
+            </div>
+          </div>
+        </div>
+      </header>
+
+
+<header class="feature">
+    <div class="container container--wide">
+      <h1><span>Dockership</span></h1>
+      <h3>a dead simple docker deploy tool</h3>
+      <a
+        class="btn btn-primary btn-lg"
+        href="https://github.com/mcuadros/dockership"
+        target="_blank"
+      >
+        <i class="fa fa-github"></i> Source code
+      </a>
+      <a
+        class="btn btn-success btn-lg"
+        href="https://github.com/mcuadros/dockership/releases"
+        target="_blank"
+      >
+          <i class="fa fa-download"></i> Download
+      </a>
+  </div>
+</header>
+<div class="container">
+  
+    
+
+<h3 id="toc_0"><a href="https://github.com/mcuadros/dockership/releases"><img src="http://img.shields.io/github/release/mcuadros/dockership.svg?style=flat-square" alt="Latest Stable Version" />
+</a> <a href="https://travis-ci.org/mcuadros/dockership"><img src="http://img.shields.io/travis/mcuadros/dockership.svg?style=flat-square" alt="Build Status" />
+</a></h3>
+
+<p><strong>Dockership</strong> is a tool for easily deploying Docker containers to one or multiple Docker servers.</p>
+
+<h2 id="toc_1">Why?</h2>
+
+<p>Nowadays we have many powerful tools for <em>configuration management</em> such as <a href="http://puppetlabs.com/puppet/what-is-puppet">Puppet</a>, <a href="http://www.getchef.com/chef/">Chef</a> and  <a href="http://www.ansibleworks.com/">Ansible</a> even docker-based deployments tools like <a href="http://deis.io">Deis</a>. This tools are great for medium/big projects, but not optimal for small startups without a DevOps guy, and personal side projects.</p>
+
+<p>With Dockership you can deploy your applications, based on a Docker container, to several server without learning complex DSLs or hundreds of new terms. Learns new things is great, but when you deploy from time to time, remember how to do it becomes hard to remember.</p>
+
+<h2 id="toc_2">Overview</h2>
+
+<p>The deploy is based on git repositories (currently only supports Github ones) containing the Dockerfile for each project. Dockership handles the building and running process at one or multiple docker servers, the  version control is made through the git commits, being extremely easy.</p>
+
+<p>Dockership comes in two flavours CLI and HTTP, here you can see a screenshot from the HTTP view.</p>
+
+<p><img src="https://raw.githubusercontent.com/mcuadros/dockership-site/master/static/images/screenshots/http-project-view-min.png" alt="Projects View" />
+</p>
+
+<h2 id="toc_3">Example</h2>
+
+<p>The configuration is based on a INI-style config file like this</p>
+
+<pre><code class="language-ini">[Project &quot;corporate-site&quot;]
+Repository = git@github.com:example/corporate-site.git
+Environment = live
+Environment = dev
+Port = 0.0.0.0:80:80/tcp
+
+
+[Environment &quot;live&quot;]
+DockerEndPoint = http://live-1.example.com
+DockerEndPoint = http://live-2.example.com
+
+
+[Environment &quot;dev&quot;]
+DockerEndPoint = http://dev.example.com
+</code></pre>
+
+  
+</div>
+  <footer class="container">
+    <div class=" well well-sm">
+        by <a target="_blank"  href="https://github.com/mcuadros">Máximo Cuadros</a>
+        @ 2015.
+        <a target="_blank" href="https://github.com/mcuadros/dockership/blob/master/LICENSE">Under MIT License</a> /
+
+        Logo by
+        <a target="_blank" href="https://dribbble.com/cayeromero">Caye Romero</a>
+    </div>
+  </footer>
+</body>
+</html>
+

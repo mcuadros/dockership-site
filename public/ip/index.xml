@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Recent Content on Dockership </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
+    <link>/ip/index.xml</link>
+    
+    
+    
+    <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
+    
+    <item>
+      <title>Extending Dockership</title>
+      <link>/ip/documentation/extending_dockership/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 UTC</pubDate>
+      
+      <guid>/ip/documentation/extending_dockership/</guid>
+      <description>
+
+&lt;h1 id=&#34;toc_0&#34;&gt;Extending Dockership&lt;/h1&gt;
+
+&lt;p&gt;Dockership doesn&amp;rsquo;t provide a plugin system. However, it exposes some machine-friendly interfaces you can write programs against to extend its basic functionality.&lt;/p&gt;
+
+&lt;h2 id=&#34;toc_1&#34;&gt;Web hooks&lt;/h2&gt;
+
+&lt;p&gt;You can get notifications pushed to your server when some events happen in Dockership. To do this, &lt;strong&gt;add the &lt;code&gt;WebHook&lt;/code&gt; property to a project&lt;/strong&gt; in &lt;a href=&#34;https://github.com/mcuadros/dockership/blob/master/documentation/configuration.md#project&#34;&gt;your configuration file&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;All notifications will be sent as POST requests with a JSON value in the body, thus with an &lt;code&gt;application/json&lt;/code&gt; content type. will be sent when a deploy succeeds for this project. The request will have a JSON object body with keys &lt;code&gt;previous_revision&lt;/code&gt;, &lt;code&gt;current_revision&lt;/code&gt;, &lt;code&gt;project&lt;/code&gt;, &lt;code&gt;environment&lt;/code&gt; and &lt;code&gt;errors&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Currently, the only notification happens &lt;strong&gt;after a deploy&lt;/strong&gt;. The sent JSON value will be an object with:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;previous_revision&lt;/code&gt;, the identifier (typically, the hash of a commit) of the running revision of the code &lt;em&gt;before&lt;/em&gt; the deployment happened.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;current_revision&lt;/code&gt;, the identifier of the currently running revision, after the deployment.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;project&lt;/code&gt; name, as defined in &lt;a href=&#34;https://github.com/mcuadros/dockership/blob/master/documentation/configuration.md#project&#34;&gt;Configuration&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;environment&lt;/code&gt; name, as defined in &lt;a href=&#34;https://github.com/mcuadros/dockership/blob/master/documentation/configuration.md#environment&#34;&gt;Configuration&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;errors&lt;/code&gt;, an array of strings describing the errors that prevented the deployment, if any. If the array is not empty, the deployment failed, and &lt;code&gt;current_revision&lt;/code&gt; will be the same as &lt;code&gt;previous_revision&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;toc_2&#34;&gt;HTTP endpoints&lt;/h2&gt;
+
+&lt;p&gt;For pulling information out of Dockership, you can access some resources exposed as JSON values in HTTP endpoints.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;/rest/projects&lt;/code&gt; is an object containing the projects defined in the configuration indexed by project name. Each entry in the object is the JSON serialization of a &lt;a href=&#34;http://godoc.org/github.com/mcuadros/dockership/core#Project&#34;&gt;&lt;code&gt;Project&lt;/code&gt;&lt;/a&gt; value.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/rest/status&lt;/code&gt; is an object containing the status of each project indexed by project name. Each entry in the object is the JSON serialization of a &lt;a href=&#34;http://godoc.org/github.com/mcuadros/dockership/http#StatusResult&#34;&gt;&lt;code&gt;StatusResult&lt;/code&gt;&lt;/a&gt; value.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/rest/status/:project&lt;/code&gt;, &lt;code&gt;:project&lt;/code&gt; being a placeholder for a project name, is the entry for the desired project in the object given at &lt;code&gt;/rest/status&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Scaffolding Strategies</title>
+      <link>/ip/documentation/scaffolding_strategies/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 UTC</pubDate>
+      
+      <guid>/ip/documentation/scaffolding_strategies/</guid>
+      <description>
+
+&lt;h1 id=&#34;toc_0&#34;&gt;Scaffolding Strategies&lt;/h1&gt;
+
+&lt;p&gt;This document describes the different possibilities to define the scaffolding of applications to be used with Dockership.&lt;/p&gt;
+
+&lt;p&gt;The easiest strategy to working with Dockership is to use self-contained repositiories: every repository to be deployed should contain his Dockerfile. Alternatively, the Dockefiles of the different applications of a company can be centralized in a single repository.&lt;/p&gt;
+
+&lt;h2 id=&#34;toc_1&#34;&gt;Self-contained Repositories&lt;/h2&gt;
+
+&lt;p&gt;This is the simplest way to work with Dockership: Just place a &lt;code&gt;Dockerfile&lt;/code&gt; at the root of your repository. (This is the default location, you can configure your own).&lt;/p&gt;
+
+&lt;p&gt;In this example we deploy an AngularJS tool using &lt;a href=&#34;https://github.com/dockerfile/nginx&#34;&gt;dockerfile/nginx&lt;/a&gt;, the container should retrieve the code through a git clone and execute all the required command to work properly.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-Dockerfile&#34;&gt;FROM dockerfile/nginx
+
+# pre requisites
+RUN apt-get install -y npm nodejs
+RUN ln -s /usr/bin/nodejs /usr/local/bin/node
+RUN npm install -g bower grunt karma
+
+# source code
+RUN rm -rf /var/www
+RUN git clone git@github.com:example/corporate-site.git /var/www
+
+# post code commands
+WORKDIR /var/www
+RUN npm install
+RUN bower install --allow-root
+
+EXPOSE 80
+
+# boot
+CMD [&amp;quot;/usr/sbin/nginx&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This project at the &lt;code&gt;dockership.ini&lt;/code&gt; can be configured as follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ini&#34;&gt;[Project &amp;quot;corporate-site&amp;quot;]
+Repository = git@github.com:example/corporate-site.git
+Port = 0.0.0.0:80:80/tcp
+Environment = live
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;toc_2&#34;&gt;Centralised dockerfiles repository&lt;/h2&gt;
+
+&lt;p&gt;Maybe you prefer keep all your company&amp;rsquo;s &lt;code&gt;dockerfiles&lt;/code&gt; in the same repository, keeping away from the development team those files.&lt;/p&gt;
+
+&lt;p&gt;Based on this hypothetic scaffolding:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;devops
+ |_ dokerfiles
+     |_ CorporateSiteDokerFile
+     |_ InternalSiteDockerfile
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Our &lt;code&gt;dockership.ini&lt;/code&gt; will looks like:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ini&#34;&gt;[Project &amp;quot;corporate-site&amp;quot;]
+Repository =  git@github.com:example/devops.git
+RelatedRepository = git@github.com:example/corporate-site.git
+Dockerfile = dockerfiles/CorporateSiteDokerFile
+Port = 0.0.0.0:80:80/tcp
+Environment = live
+
+[Project &amp;quot;internal-site&amp;quot;]
+Repository =  git@github.com:example/devops.git
+RelatedRepository = git@github.com:example/internal-site.git
+Dockerfile = dockerfiles/InternalSiteDockerfile
+Port = 0.0.0.0:80:80/tcp
+Environment = live
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Using the &lt;code&gt;RelatedRepository&lt;/code&gt; we can track any change at the deployed project, having the dockerfile in other repository. But we have a caveat, every time a file is changed at the &lt;code&gt;devops&lt;/code&gt; repository even unrelated to the project, this project will look outdated.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/ip/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 UTC</pubDate>
+      
+      <guid>/ip/</guid>
+      <description>
+
+&lt;h3 id=&#34;toc_0&#34;&gt;&lt;a href=&#34;https://github.com/mcuadros/dockership/releases&#34;&gt;&lt;img src=&#34;http://img.shields.io/github/release/mcuadros/dockership.svg?style=flat-square&#34; alt=&#34;Latest Stable Version&#34; /&gt;
+&lt;/a&gt; &lt;a href=&#34;https://travis-ci.org/mcuadros/dockership&#34;&gt;&lt;img src=&#34;http://img.shields.io/travis/mcuadros/dockership.svg?style=flat-square&#34; alt=&#34;Build Status&#34; /&gt;
+&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Dockership&lt;/strong&gt; is a tool for easily deploying Docker containers to one or multiple Docker servers.&lt;/p&gt;
+
+&lt;h2 id=&#34;toc_1&#34;&gt;Why?&lt;/h2&gt;
+
+&lt;p&gt;Nowadays we have many powerful tools for &lt;em&gt;configuration management&lt;/em&gt; such as &lt;a href=&#34;http://puppetlabs.com/puppet/what-is-puppet&#34;&gt;Puppet&lt;/a&gt;, &lt;a href=&#34;http://www.getchef.com/chef/&#34;&gt;Chef&lt;/a&gt; and  &lt;a href=&#34;http://www.ansibleworks.com/&#34;&gt;Ansible&lt;/a&gt; even docker-based deployments tools like &lt;a href=&#34;http://deis.io&#34;&gt;Deis&lt;/a&gt;. This tools are great for medium/big projects, but not optimal for small startups without a DevOps guy, and personal side projects.&lt;/p&gt;
+
+&lt;p&gt;With Dockership you can deploy your applications, based on a Docker container, to several server without learning complex DSLs or hundreds of new terms. Learns new things is great, but when you deploy from time to time, remember how to do it becomes hard to remember.&lt;/p&gt;
+
+&lt;h2 id=&#34;toc_2&#34;&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;The deploy is based on git repositories (currently only supports Github ones) containing the Dockerfile for each project. Dockership handles the building and running process at one or multiple docker servers, the  version control is made through the git commits, being extremely easy.&lt;/p&gt;
+
+&lt;p&gt;Dockership comes in two flavours CLI and HTTP, here you can see a screenshot from the HTTP view.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/mcuadros/dockership-site/master/static/images/screenshots/http-project-view-min.png&#34; alt=&#34;Projects View&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;toc_3&#34;&gt;Example&lt;/h2&gt;
+
+&lt;p&gt;The configuration is based on a INI-style config file like this&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ini&#34;&gt;[Project &amp;quot;corporate-site&amp;quot;]
+Repository = git@github.com:example/corporate-site.git
+Environment = live
+Environment = dev
+Port = 0.0.0.0:80:80/tcp
+
+
+[Environment &amp;quot;live&amp;quot;]
+DockerEndPoint = http://live-1.example.com
+DockerEndPoint = http://live-2.example.com
+
+
+[Environment &amp;quot;dev&amp;quot;]
+DockerEndPoint = http://dev.example.com
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Creating your Dockerfiles</title>
+      <link>/ip/documentation/creating_your_dockerfiles/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 UTC</pubDate>
+      
+      <guid>/ip/documentation/creating_your_dockerfiles/</guid>
+      <description>
+
+&lt;h1 id=&#34;toc_0&#34;&gt;Creating your Dockerfiles&lt;/h1&gt;
+
+&lt;p&gt;This documentation assumes that you know what is a &lt;code&gt;Dockerfile&lt;/code&gt; and how to define one, if not please take a look to the &lt;a href=&#34;http://docs.docker.com/reference/builder/&#34;&gt;Dockerfile Reference&lt;/a&gt; before to continue.&lt;/p&gt;
+
+&lt;p&gt;Those variables are replaced by Dockership before being submitted to the Docker server.&lt;/p&gt;
+
+&lt;h2 id=&#34;toc_1&#34;&gt;Variables&lt;/h2&gt;
+
+&lt;p&gt;Dockership introduces a serie of variables into the Dockerfiles. This could be very useful in some cases.&lt;/p&gt;
+
+&lt;h3 id=&#34;toc_2&#34;&gt;Deployment information&lt;/h3&gt;
+
+&lt;p&gt;This kind of variables are sourced from the internal process of Dockerfile given info about the deploy action.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;$DOCKERSHIP_PROJECT&lt;/code&gt;: Project name&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$DOCKERSHIP_VCS&lt;/code&gt;: Repository URLs, the &lt;code&gt;Repository&lt;/code&gt; variable from the project.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$DOCKERSHIP_REV&lt;/code&gt;: Revision identifier&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$DOCKERSHIP_ENV&lt;/code&gt;: Environment name where the Dockerfile is being deployed.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;toc_3&#34;&gt;etcd support&lt;/h3&gt;
+
+&lt;p&gt;Dockership can be connected to a etcd server and allowing retrieve values directly into your Dockerfile.&lt;/p&gt;
+
+&lt;p&gt;The etcd keys are translated to variables. For example a key called &lt;code&gt;FOO&lt;/code&gt; will be converted in &lt;code&gt;$ETCD_FOO&lt;/code&gt; or a key in a directory like &lt;code&gt;QUX/BAR&lt;/code&gt; becomes &lt;code&gt;$ETCD_QUX__BAR&lt;/code&gt;. If the key is not found or &lt;code&gt;etcd&lt;/code&gt; returns an error, the variable is not replaced.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;etcd&lt;/code&gt; keys are case-sensitive, to replace a key named &lt;code&gt;foo&lt;/code&gt; a variable &lt;code&gt;$ETCD_foo&lt;/code&gt; is required. If the key is a directory the &lt;code&gt;/&lt;/code&gt; should be replace with &lt;code&gt;__&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;toc_4&#34;&gt;Avoid cache issues&lt;/h2&gt;
+
+&lt;p&gt;For the most part, the image cache is incredibly helpful saving us a lot of time. However, this becomes tricky when the command results differs on each call.&lt;/p&gt;
+
+&lt;p&gt;Let’s say we have the following Dockerfile:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;FROM ubuntu:14.04
+
+RUN apt-get update
+RUN apt-get install -y build-essential git
+
+RUN git clone https://github.com/mcuadros/flask-example.git
+WORKDIR flask_example
+RUN python setup.py install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The first time we build this all works as expected the &lt;code&gt;mcuadros/flask-example&lt;/code&gt; is fletched with the latest version.&lt;/p&gt;
+
+&lt;p&gt;But then a developer commits something new to this repository and we want to build the new image version and the result is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Step 3 : RUN git clone https://github.com/mcuadros/flask-example.git
+ ---&amp;gt; Using cache
+ ---&amp;gt; 2caac4df5e4a
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is very inconvenient since the builded image still has the old code. The most common option is to use the &lt;code&gt;NoCache&lt;/code&gt; options ignoring the cache generated by the first build, but in this case every time we build the image &lt;code&gt;apt-get update&lt;/code&gt; and &lt;code&gt;apt-get install -y build-essential git&lt;/code&gt; will be executed being a suboptimal solution.&lt;/p&gt;
+
+&lt;p&gt;We propose to use &lt;code&gt;$DOCKERSHIP_REV&lt;/code&gt; at the same &lt;code&gt;RUN&lt;/code&gt; command. Now, if the version has changed, the cache will be ignored retrieving the new content.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;FROM ubuntu:14.04
+
+RUN apt-get update
+RUN apt-get install -y build-essential git
+
+RUN git clone https://github.com/mcuadros/flask-example.git &amp;amp;&amp;amp; echo $DOCKERSHIP_REV
+WORKDIR flask_example
+RUN python setup.py install
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Configuration</title>
+      <link>/ip/documentation/configuration/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 UTC</pubDate>
+      
+      <guid>/ip/documentation/configuration/</guid>
+      <description>
+
+&lt;h1 id=&#34;toc_0&#34;&gt;Configuration&lt;/h1&gt;
+
+&lt;p&gt;The &lt;strong&gt;dockership&lt;/strong&gt; configuration is based on an INI-formatted config file.&lt;/p&gt;
+
+&lt;p&gt;Dockership will look at &lt;code&gt;/etc/dockership/dockership.conf&lt;/code&gt; for this config file by default. The &lt;code&gt;-config&lt;/code&gt; flag may be passed to the &lt;code&gt;dockershipd&lt;/code&gt; or &lt;code&gt;dockership&lt;/code&gt; binaries to use a custom config file location.&lt;/p&gt;
+
+&lt;h2 id=&#34;toc_1&#34;&gt;Syntax&lt;/h2&gt;
+
+&lt;p&gt;The config file syntax is based on &lt;a href=&#34;http://git-scm.com/docs/git-config#_syntax&#34;&gt;git-config&lt;/a&gt;, with minor changes.&lt;/p&gt;
+
+&lt;p&gt;The file consists of &lt;strong&gt;sections&lt;/strong&gt; and &lt;strong&gt;variables&lt;/strong&gt;. A section begins with the name of the section in square brackets and continues until the next section begins. Section names are not case sensitive. Only alphanumeric characters, - and . are allowed in section names. Each variable must belong to some section, which means that there must be a section header before the first setting of a variable.&lt;/p&gt;
+
+&lt;p&gt;Sections can be further divided into subsections. To begin a subsection put its name in double quotes, separated by space from the section name, in the section header, like in the example below:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ini&#34;&gt;; Comment line
+[section &amp;quot;subsection&amp;quot;]
+name = value # Another comment
+flag # implicit value for bool is true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;toc_2&#34;&gt;Sections&lt;/h2&gt;
+
+&lt;h3 id=&#34;toc_3&#34;&gt;Global&lt;/h3&gt;
+
+&lt;p&gt;A miscellaneous of configuration variables used across the whole tool.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;GithubToken&lt;/code&gt; (mandatory): a Github &lt;a href=&#34;https://github.com/settings/tokens/new&#34;&gt;personal access token&lt;/a&gt; used in every request to the &lt;a href=&#34;https://developer.github.com/&#34;&gt;Github API&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;UseShortRevisions&lt;/code&gt; (default: true): if it is false all the images and containers will be defined using full length revision names, instead the short ones.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;EtcdServer&lt;/code&gt; (multiple, optional): etcd server, needed for etcd variables at the Dockerfiles.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;toc_4&#34;&gt;HTTP&lt;/h3&gt;
+
+&lt;p&gt;Configuration of the web server from &lt;code&gt;dockershipd&lt;/code&gt;. &lt;em&gt;This section is only required by dockershipd&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Since the authentication is based on a registered &lt;a href=&#34;https://github.com/settings/applications/new&#34;&gt;Github Application&lt;/a&gt;, you should &lt;a href=&#34;https://github.com/settings/applications/new&#34;&gt;create it&lt;/a&gt; at Github. The &lt;em&gt;Authorization callback URL&lt;/em&gt; must be filled with &lt;code&gt;http://&amp;lt;server-addr&amp;gt;/oauth2callback&lt;/code&gt;, this URL should be accessible by anyone.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Listen&lt;/code&gt; (default: 0.0.0.0:80): the TCP network address&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;GithubID&lt;/code&gt; (mandatory): the &lt;code&gt;Client ID&lt;/code&gt; provided by Github&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;GithubSecret&lt;/code&gt; (mandatory): the &lt;code&gt;Client Secret&lt;/code&gt; provided by Github&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;GithubOrganization&lt;/code&gt; (optional): only the members from this Github Organization are allowed to access.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;GithubUser&lt;/code&gt; (multiple, optional): Github user allowed to access into Dockership&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;GithubRedirectURL&lt;/code&gt; (mandatory): the &lt;code&gt;Authorization callback URL&lt;/code&gt; configured in Github&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;toc_5&#34;&gt;Environment&lt;/h3&gt;
+
+&lt;p&gt;An environment is a logical group of any number of Docker servers. Dockership supports multiple environments. Each &lt;code&gt;Environment&lt;/code&gt; is defined as a section with subsection: &lt;code&gt;[Environment &amp;quot;production&amp;quot;]&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;DockerEndPoint&lt;/code&gt; (mandatory, multiple): &lt;a href=&#34;https://docs.docker.com/reference/api/docker_remote_api/&#34;&gt;Docker Remote API&lt;/a&gt; address, if dockership and Docker are running in the same host you can use &lt;code&gt;unix:///var/run/docker.sock&lt;/code&gt; if not you should enable remote access at the docker daemon (with -H parameter) and use a TCP endpoint. (eg.: &lt;code&gt;tcp://172.17.42.1:4243&lt;/code&gt;)&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;CertPath&lt;/code&gt; (optional): If you are running Docker with TLS support you must provide the path to your keys files, just like the &lt;a href=&#34;https://docs.docker.com/articles/https/&#34;&gt;DOCKER_CERT_PATH&lt;/a&gt; looks.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;EtcdServer&lt;/code&gt; (multiple, optional): if none is configured the &lt;code&gt;Global.EtcdServer&lt;/code&gt; will be used&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;toc_6&#34;&gt;Project&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Project&lt;/code&gt; section defines the configuration for every project to be deployed in the environments. The relation between repositories is one-to-one, so the repository should contain the &lt;code&gt;Dockerfile&lt;/code&gt; and all the files needed to build the Docker image. The Project as Environment is defined as a section with subsection: &lt;code&gt;[Project &amp;quot;disruptive-app&amp;quot;]&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Repository&lt;/code&gt; (mandatory): Github repository SSH clone URL, the branch can be added to the end of the URL preceded of a &lt;code&gt;!&lt;/code&gt; (eg.: &lt;code&gt;git@github.com:mcuadros/dockership.git!master&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Dockerfile&lt;/code&gt; (default: Dockerfile): the path to the Dockerfile at the repository.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RelatedRepositories&lt;/code&gt; (optional, multiple): SSH clone URL to dependent repositories. (Link to more explanatory document)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;History&lt;/code&gt; (default: 3): Number to old images you want to keep in each Docker server.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;NoCache&lt;/code&gt; (optional): Avoid to use the Docker cache (like &amp;ndash;no-cache at &lt;code&gt;docker build&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Port&lt;/code&gt; (multiple, optional): container port to expose, format: &lt;code&gt;&amp;lt;host-addr&amp;gt;:&amp;lt;host-port&amp;gt;:&amp;lt;container-port&amp;gt;/&amp;lt;proto&amp;gt;&lt;/code&gt; (like -p at &lt;code&gt;docker run&lt;/code&gt;), additionaly the port can be configured just for one enviroment adding it to end of the port preceded by a &lt;code&gt;@&lt;/code&gt; (eg: &lt;code&gt;2.2.2.2:80:80/tcp@live&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Restart&lt;/code&gt; (optional, default: no): restart policy to apply when a container exits (no, on-failure[:max-retry], always)  (like &amp;ndash;restart at &lt;code&gt;docker run&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Link&lt;/code&gt; (multiple, optional): creates a Link to other project, when this project is deployed the linked projects are restarted (like -P at &lt;code&gt;docker run&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Volume&lt;/code&gt; (multiple, optional): mounts a Data Volume Container (like -v at &lt;code&gt;docker run&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VolumeFrom&lt;/code&gt; (multiple, optional): mounts a Data Volumes From  a specified container (like &amp;ndash;volumes-from at &lt;code&gt;docker run&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;GithubToken&lt;/code&gt; (default: Global.GithubToken): the token needed to access this repository, if it is different from the global one.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Environment&lt;/code&gt; (multiple, mandatory): Environment name where this project could be deployed&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WebHook&lt;/code&gt; (optional): An HTTP address. See &lt;a href=&#34;https://github.com/mcuadros/dockership/blob/master/documentation/extending_dockership.md#web-hooks&#34;&gt;Extending Dockership&lt;/a&gt; for details.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;toc_7&#34;&gt;Example&lt;/h2&gt;
+
+&lt;h3 id=&#34;toc_8&#34;&gt;Scenario&lt;/h3&gt;
+
+&lt;h4 id=&#34;toc_9&#34;&gt;rest-service project&lt;/h4&gt;
+
+&lt;p&gt;REST webservice in Python running under a uwsgi+nginx on port 8080&lt;/p&gt;
+
+&lt;p&gt;This repository requires the python package &lt;code&gt;domain&lt;/code&gt;, so we want to detect if the rest-service has pending changes to be deployed when the domain has new commits, even when the &lt;code&gt;rest-service&lt;/code&gt; repository does not have new commits.&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_10&#34;&gt;frontend project&lt;/h4&gt;
+
+&lt;p&gt;An AngularJS frontend running on a nginx server, with a &lt;code&gt;reverse_proxy&lt;/code&gt; pointing to the port 8080 at rest-service container, in the path &lt;code&gt;/rest&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We want to expose the port 80 at the host server.&lt;/p&gt;
+
+&lt;h3 id=&#34;toc_11&#34;&gt;Config file&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ini&#34;&gt;[Global]
+GithubToken = example-token
+
+[Project &amp;quot;rest-service&amp;quot;]
+Repository = git@github.com:company/rest-service.git
+Environment = live
+Environment = dev
+File = /tmp/container.py
+RelatedRepository = git@github.com:company/domain.git
+
+[Project &amp;quot;frontend&amp;quot;]
+Repository = git@github.com:company/angular-client.git
+Environment = live
+Environment = dev
+Port = 0.0.0.0:80:80/tcp
+Link = rest-service:backend
+
+[Environment &amp;quot;live&amp;quot;]
+DockerEndPoint = http://live-1.example.com
+DockerEndPoint = http://live-2.example.com
+
+[Environment &amp;quot;dev&amp;quot;]
+DockerEndPoint = http://dev.example.com
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
