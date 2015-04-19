@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+    <title>Creating your Dockerfiles</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    
+    
+
+    <script type="text/javascript"
+      src="https://code.jquery.com/jquery-2.1.1.min.js"
+    ></script>
+
+    
+    <link rel="stylesheet" href="https://yandex.st/highlightjs/8.0/styles/github.min.css">
+    <script type="text/javascript"
+      src="https://yandex.st/highlightjs/8.0/highlight.min.js"
+    ></script>
+
+    
+    <script type="text/javascript"
+      src="//cdnjs.cloudflare.com/ajax/libs/headroom/0.6.0/headroom.min.js"
+    ></script>
+    <script type="text/javascript"
+      src="//cdnjs.cloudflare.com/ajax/libs/headroom/0.6.0/jQuery.headroom.min.js"
+    ></script>
+
+    
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script type="text/javascript"
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"
+    ></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+      var header = document.querySelector(".headroom");
+      new Headroom(header, {
+        tolerance: {
+          down : 10,
+          up : 50
+        },
+        offset : 50}).init();
+      hljs.initHighlightingOnLoad();
+    });
+    </script>
+
+
+    <style type="text/css">
+      body {
+        font-size: 16px;
+      }
+      #navbar-main {
+        margin-top: 5px;
+      }
+      .feature {
+        padding-top: 5.5em;
+        padding-bottom: 2.5em;
+      }
+      .feature {
+        background-color: #F4F0E6;
+        padding: 4em 0 2em 0;
+        text-align: center;
+      }
+      .feature h1 {
+        background-image: url(/ip/images/dockership.png);
+        background-repeat: no-repeat;
+        background-size: 500px;
+        background-position: center center;
+        display: block;
+        height: 90px;
+        margin-left:-55px;
+
+      }
+      .feature h1 span { display: none; }
+      .headroom {
+        transition: transform 200ms linear;
+      }
+      .headroom--unpinned .navbar-brand {
+        width: 60px;
+        transition: width 1s;
+      }
+
+      .headroom--pinned .navbar-brand {
+        width: 200px;
+        transition: width 1s;
+      }
+
+      .container {
+        max-width: 50em;
+        margin: 0 auto;
+        padding: 0 1.5em;
+      }
+      .main h1 {
+        padding-bottom: 10px;
+        margin-bottom: 40px;
+        border-bottom: 1px solid;
+      }
+
+      .navbar-brand {
+        background-image: url(/ip/images/dockership.png);
+        background-repeat: no-repeat;
+        background-size: 200px;
+        width: 200px;
+        margin:5px;
+      }
+
+      .navbar-brand span { display: none;}
+      .main { margin-top: 50px;}
+      .feature .btn { width: 200px; margin-top: 10px; }
+
+      footer { padding-top: 60px !important; }
+      footer a { color: #808080; font-weight: bolder; }
+
+       
+      .btn-primary, .btn-primary:hover {
+        border: 1px solid #634224;
+        background-image: linear-gradient(#936B47 , #936B47 6%, #82582D);
+      }
+    </style>
+    </head>
+    <body>
+      <header class="navbar navbar-default navbar-fixed-top headroom">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand"><span>Dockership</span></a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+              <ul class="nav navbar-nav">
+                
+                  
+                
+                  
+                  <li class="dropdown">
+                  <a
+                    class="dropdown-toggle" data-toggle="dropdown" 
+                    href="/documentation" id="documentation">
+                      Documentation
+                      <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="themes">
+                    
+                    <li><a href="/ip/documentation/extending_dockership/">Extending Dockership</a></li>
+                    
+                    <li><a href="/ip/documentation/scaffolding_strategies/">Scaffolding Strategies</a></li>
+                    
+                    <li><a href="/ip/documentation/creating_your_dockerfiles/">Creating your Dockerfiles</a></li>
+                    
+                    <li><a href="/ip/documentation/configuration/">Configuration</a></li>
+                    
+                  </ul>
+                  </li>
+                  
+                
+
+                
+                <li>
+                  <a href="https://github.com/mcuadros/dockership/issues" target="_blank">Issues</a>
+                </li>
+                
+                
+                <li class="dropdown">
+                  <a href="https://github.com/mcuadros/dockership/releases" target="_blank">Download</a>
+                </li>
+                
+              </ul>
+
+              
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="https://github.com/mcuadros/dockership" target="_blank">
+                  <i class="fa fa-github"></i> Github</a>
+                </a></li>
+              </ul>
+              
+            </div>
+          </div>
+        </div>
+      </header>
+
+
+<div class="container main">
+  
+
+<h1 id="toc_0">Creating your Dockerfiles</h1>
+
+<p>This documentation assumes that you know what is a <code>Dockerfile</code> and how to define one, if not please take a look to the <a href="http://docs.docker.com/reference/builder/">Dockerfile Reference</a> before to continue.</p>
+
+<p>Those variables are replaced by Dockership before being submitted to the Docker server.</p>
+
+<h2 id="toc_1">Variables</h2>
+
+<p>Dockership introduces a serie of variables into the Dockerfiles. This could be very useful in some cases.</p>
+
+<h3 id="toc_2">Deployment information</h3>
+
+<p>This kind of variables are sourced from the internal process of Dockerfile given info about the deploy action.</p>
+
+<ul>
+<li><code>$DOCKERSHIP_PROJECT</code>: Project name</li>
+<li><code>$DOCKERSHIP_VCS</code>: Repository URLs, the <code>Repository</code> variable from the project.</li>
+<li><code>$DOCKERSHIP_REV</code>: Revision identifier</li>
+<li><code>$DOCKERSHIP_ENV</code>: Environment name where the Dockerfile is being deployed.</li>
+</ul>
+
+<h3 id="toc_3">etcd support</h3>
+
+<p>Dockership can be connected to a etcd server and allowing retrieve values directly into your Dockerfile.</p>
+
+<p>The etcd keys are translated to variables. For example a key called <code>FOO</code> will be converted in <code>$ETCD_FOO</code> or a key in a directory like <code>QUX/BAR</code> becomes <code>$ETCD_QUX__BAR</code>. If the key is not found or <code>etcd</code> returns an error, the variable is not replaced.</p>
+
+<p>The <code>etcd</code> keys are case-sensitive, to replace a key named <code>foo</code> a variable <code>$ETCD_foo</code> is required. If the key is a directory the <code>/</code> should be replace with <code>__</code>.</p>
+
+<h2 id="toc_4">Avoid cache issues</h2>
+
+<p>For the most part, the image cache is incredibly helpful saving us a lot of time. However, this becomes tricky when the command results differs on each call.</p>
+
+<p>Let’s say we have the following Dockerfile:</p>
+
+<pre><code>FROM ubuntu:14.04
+
+RUN apt-get update
+RUN apt-get install -y build-essential git
+
+RUN git clone https://github.com/mcuadros/flask-example.git
+WORKDIR flask_example
+RUN python setup.py install
+</code></pre>
+
+<p>The first time we build this all works as expected the <code>mcuadros/flask-example</code> is fletched with the latest version.</p>
+
+<p>But then a developer commits something new to this repository and we want to build the new image version and the result is:</p>
+
+<pre><code>Step 3 : RUN git clone https://github.com/mcuadros/flask-example.git
+ ---&gt; Using cache
+ ---&gt; 2caac4df5e4a
+</code></pre>
+
+<p>This is very inconvenient since the builded image still has the old code. The most common option is to use the <code>NoCache</code> options ignoring the cache generated by the first build, but in this case every time we build the image <code>apt-get update</code> and <code>apt-get install -y build-essential git</code> will be executed being a suboptimal solution.</p>
+
+<p>We propose to use <code>$DOCKERSHIP_REV</code> at the same <code>RUN</code> command. Now, if the version has changed, the cache will be ignored retrieving the new content.</p>
+
+<pre><code>FROM ubuntu:14.04
+
+RUN apt-get update
+RUN apt-get install -y build-essential git
+
+RUN git clone https://github.com/mcuadros/flask-example.git &amp;&amp; echo $DOCKERSHIP_REV
+WORKDIR flask_example
+RUN python setup.py install
+</code></pre>
+
+</div>
+  <footer class="container">
+    <div class=" well well-sm">
+        by <a target="_blank"  href=""></a>
+        @ .
+        <a target="_blank" href="">Under MIT License</a> /
+
+        Logo by
+        <a target="_blank" href="https://dribbble.com/cayeromero">Caye Romero</a>
+    </div>
+  </footer>
+</body>
+</html>
+
