@@ -8,12 +8,12 @@
   </url>
   
   <url>
-    <loc>/ip/documentation/extending_dockership/</loc>
+    <loc>/ip/documentation/scaffolding_strategies/</loc>
     <lastmod>0001-01-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/ip/documentation/scaffolding_strategies/</loc>
+    <loc>/ip/documentation/creating_your_dockerfiles/</loc>
     <lastmod>0001-01-01T00:00:00+00:00</lastmod>
   </url>
   
@@ -23,7 +23,7 @@
   </url>
   
   <url>
-    <loc>/ip/documentation/creating_your_dockerfiles/</loc>
+    <loc>/ip/documentation/extending_dockership/</loc>
     <lastmod>0001-01-01T00:00:00+00:00</lastmod>
   </url>
   
